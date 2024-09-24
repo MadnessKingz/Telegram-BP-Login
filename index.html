@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset=UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Login</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f1f1f1;
+        }
+
+        .telegram-box {
+            width: 80%;
+            max-width: 400px;
+            background-color: #0088cc;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1 {
+            font-family: 'Arial', sans-serif;
+            margin-top: 0;
+        }
+
+        .telegram-widget {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Telegram Login</h1>
-    
-    <script async src="https://telegram.org/js/telegram-widget.js?19"
-        data-telegram-login="BP_FF_Bot"
-        data-size="large"
-        data-auth-url="URL_TO_OPEN_WITH_USER_DATA"
-        data-request-access="write">
+    <div class="telegram-box">
+        <h1>Telegram Login</h1>
+        
+        <!-- WhatsApp Widget -->
+        <script async src="https://telegram.org/js/telegram-widget.js?19"
+            data-telegram-login="BP_FF_Bot"
+            data-size="large"
+            data-auth-url="URL_TO_OPEN_WITH_USER_DATA"
+            data-request-access="write"
+            class="telegram-widget">
         </script>
-
+    </div>
 </body>
 </html>
