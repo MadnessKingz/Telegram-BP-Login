@@ -34,7 +34,6 @@
             margin: 0;
         }
 
-
         .custom-image {
             width: 100px; /* Ancho de la imagen */
             margin-top: 40px; /* Espacio entre la imagen y el título/botón */
@@ -61,47 +60,59 @@
             data-request-access="write"
             class="telegram-widget">
         </script>
- <script>
-            function onTelegramAuthResponse(response) {
-                var id = response.id;
-                var firstName = response.first_name;
-                var lastName = response.last_name;
-                var username = response.username;
-                var photoUrl = response.photo_url;
-                var authDate = response.auth_date;
-                var hash = response.hash;
-
-                // Realizar la llamada al endpoint de autenticación personalizado utilizando los datos obtenidos
-                var url = 'https://fusyverse.com/api/auth';
-                var data = {
-                    id: id,
-                    firstName: firstName,
-                    lastName: lastName,
-                    username: username,
-                    photoUrl: photoUrl,
-                    authDate: authDate,
-                    hash: hash
-                };
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Usuario autenticado en el sistema.');
-                    } else {
-                        console.error('Error al autenticar al usuario en el sistema.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error en la solicitud:', error);
-                });
-            }
-        </script>
     </div>
+
+    <script>
+        function onTelegramAuthResponse(response) {
+            var id = response.id;
+            var firstName = response.first_name;
+            var lastName = response.last_name;
+            var username = response.username;
+            var photoUrl = response.photo_url;
+            var authDate = response.auth_date;
+            var hash = response.hash;
+
+            // Realizar la llamada al endpoint de autenticación personalizado utilizando los datos obtenidos
+            var url = 'https://fusyverse.com/api/auth';
+            var data = {
+                id: id,
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                photoUrl: photoUrl,
+                authDate: authDate,
+                hash: hash
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Usuario autenticado en el sistema.');
+                } else {
+                    console.error('Error al autenticar al usuario en el sistema.');
+                }
+            })
+            .catch(error => {
+                console.error('Error en la solicitud:', error);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var telegramWidget = document.querySelector('.telegram-widget');
+
+            telegramWidget.addEventListener('auth', function(event) {
+                var response = event.detail;
+
+                // Llama a la función onTelegramAuthResponse con la respuesta de autenticación
+                onTelegramAuthResponse(response);
+            });
+        });
+    </script>
 </body>
 </html>
