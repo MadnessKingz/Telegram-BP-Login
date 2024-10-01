@@ -29,15 +29,11 @@
             align-items: center; /* Añadido para centrar los elementos horizontalmente */
         }
 
-        h1 {
+        h1, h2, h3 {
             font-family: 'Arial', sans-serif;
-            margin-top: 0;
+            margin: 0;
         }
 
-        h2 {
-            font-family: 'Arial', sans-serif;
-            margin-top: 0;
-        }
 
         .custom-image {
             width: 100px; /* Ancho de la imagen */
@@ -46,10 +42,6 @@
 
         .telegram-widget {
             margin-top: 40px;
-            button-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items:center;
         }
     
     </style>
@@ -61,15 +53,55 @@
         <img src="https://i.ibb.co/5T2sTfH/blockpuzzle.png" alt="Icono de Telegram" class="custom-image">
         <h2>Block Puzzle</h2>
         
-        <br></br>
-        
         <h3>Acceder:</h3>
         <script async src="https://telegram.org/js/telegram-widget.js?19"
             data-telegram-login="BP_FF_Bot"
             data-size="large"
+            data-radius="10"
             data-auth-url="https://madnesskingz.github.io/Telegram-Block-Puzzle/"
             data-request-access="write"
             class="telegram-widget">
+        </script>
+ <script>
+            function onTelegramAuthResponse(response) {
+                var id = response.id;
+                var firstName = response.first_name;
+                var lastName = response.last_name;
+                var username = response.username;
+                var photoUrl = response.photo_url;
+                var authDate = response.auth_date;
+                var hash = response.hash;
+
+                // Realizar la llamada al endpoint de autenticación personalizado utilizando los datos obtenidos
+                var url = 'https://fusyverse.com/api/auth';
+                var data = {
+                    id: id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    username: username,
+                    photoUrl: photoUrl,
+                    authDate: authDate,
+                    hash: hash
+                };
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Usuario autenticado en el sistema.');
+                    } else {
+                        console.error('Error al autenticar al usuario en el sistema.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                });
+            }
         </script>
     </div>
 </body>
