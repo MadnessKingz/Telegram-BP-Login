@@ -58,61 +58,67 @@
             data-size="large"
             data-auth-url="https://keyshibot.z19.web.core.windows.net/"
             data-request-access="write"
+            data-userpic="false"
+            data-lang="en"
+            data-radius="5"
+            data-onauth="onTelegramAuth(user)"
             class="telegram-widget">
         </script>
     </div>
 
-    <script>
-        function onTelegramAuthResponse(response) {
-            var id = response.id;
-            var firstName = response.first_name;
-            var lastName = response.last_name;
-            var username = response.username;
-            var photoUrl = response.photo_url;
-            var authDate = response.auth_date;
-            var hash = response.hash;
+    <script type="text/javascript">
+        function onTelegramAuth(user) {
+            console.log('User authenticated:', user);
+            alert('Hello ' + user.first_name + '! Your ID is ' + user.id);
 
-            // Realizar la llamada al endpoint de autenticación personalizado utilizando los datos obtenidos
-            var url = 'https://fusyverse.com/api/auth';
-            var data = {
-                id: id,
-                firstName: firstName,
-                lastName: lastName,
-                username: username,
-                photoUrl: photoUrl,
-                authDate: authDate,
-                hash: hash
+            // Now you can use the user data to make requests to your API
+            const requestBody = {
+                id: user.id.toString(),
+                authDate: user.auth_date.toString(),
+                username: user.username,
+                hash: user.hash
             };
 
-            fetch(url, {
+            console.log(JSON.stringify(requestBody));
+
+            // Example POST request to fetch the token from your API
+            fetch('https://fusyz23.web.core.windows.net/api/auth/telegram-login/KeyshiBrosBot', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(requestBody)
             })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Usuario autenticado en el sistema.');
-                } else {
-                    console.error('Error al autenticar al usuario en el sistema.');
-                }
+            .then(response => response.json())
+            .then(data => {
+                console.log('Token received:', data.token);
+
+                // Now you can use the token to call the progress categories endpoint
+                fetchProgressCategories(data.token);
             })
-            .catch(error => {
-                console.error('Error en la solicitud:', error);
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error response from API
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var telegramWidget = document.querySelector('.telegram-widget');
-
-            telegramWidget.addEventListener('auth', function(event) {
-                var response = event.detail;
-
-                // Llama a la función onTelegramAuthResponse con la respuesta de autenticación
-                onTelegramAuthResponse(response);
+        function fetchProgressCategories(token) {
+            fetch('https://fusyz23.web.core.windows.net/api/projects/KeyshiBrosBot/progress-categories/telegram', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Progress Categories:', data);
+                // Display or process the categories data as needed
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error response from API
             });
-        });
+        }
     </script>
 </body>
 </html>
