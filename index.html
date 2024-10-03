@@ -79,7 +79,7 @@
             console.log(JSON.stringify(requestBody));
 
             // Example POST request to fetch the token from your API
-            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/auth/telegram-login/BlockPuzzChain_bot, {
+            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/auth/telegram-login/BlockPuzzChain_bot', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -100,7 +100,7 @@
         }
 
         function fetchProgressCategories(token) {
-            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/Games/play', {
+            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/projects/BlockPuzzChain_bot/progress-categories/telegram', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token
