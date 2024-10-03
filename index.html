@@ -70,12 +70,12 @@
 
             // Now you can use the user data to make requests to your API
             const requestBody = {
-                id: user.id.toString(),
+                id: user.id,
                 FirstName: user.FirstName,
                 LastName: user.NastName,
                 Username: user.Username,
                 PhotoUrl: user.PhotoUrl,
-                AuthDate: user.authdate.toString(),
+                AuthDate: user.authDate,
                 hash: user.hash
             };
 
