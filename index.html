@@ -50,11 +50,12 @@
     <div class="telegram-box">
         <h1>Telegram Login</h1>
         <img src="https://i.ibb.co/5T2sTfH/blockpuzzle.png" alt="Icono de Telegram" class="custom-image">
-        <h2>Block Puzzle</h2>
+        <h2 id="bot-name">Block Puzzle</h2>
         
         <h3>Acceder:</h3>
         <script async src="https://telegram.org/js/telegram-widget.js?19"
             data-telegram-login="BlockPuzzChain_bot"
+            data-bot-name="Block Puzzle"
             data-size="large"
             data-auth-url=""
             data-request-access="write"
@@ -67,6 +68,9 @@
         function onTelegramAuth(user) {
             console.log('User authenticated:', user);
             alert('Hello ' + user.first_name + '! Your ID is ' + user.id);
+
+            const botName = document.querySelector('.telegram-widget').getAttribute('data-bot-name');
+            document.getElementById('bot-name').textContent = botName;
 
             // Now you can use the user data to make requests to your API
             const requestBody = {
@@ -82,7 +86,7 @@
             console.log(JSON.stringify(requestBody));
 
             // Example POST request to fetch the token from your API
-            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/auth/telegram-login/BlockPuzzChain_bot', {
+            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/auth/telegram-login/' + botName, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -103,7 +107,9 @@
         }
 
         function fetchProgressCategories(token) {
-            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/projects/BlockPuzzChain_bot/progress-categories/telegram', {
+            const botName = document.querySelector('.telegram-widget').getAttribute('data-bot-name');
+
+            fetch('https://fusyverse-dmf3hxccahcgeca2.centralus-01.azurewebsites.net/api/projects/' + botName + '/progress-categories/telegram', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token
